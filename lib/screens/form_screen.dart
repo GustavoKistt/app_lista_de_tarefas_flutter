@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lista_de_tarefas_app/components/task.dart';
+import 'package:lista_de_tarefas_app/data/task_dao.dart';
 
 import '../data/task_inherited.dart';
 
@@ -145,10 +147,8 @@ class _FormScreenState extends State<FormScreen> {
                         // print(nameController.text);
                         // print(difficultyController.text);
                         // print(imageController.text);
-                        TaskInherited.of(widget.taskContext).newTask(
-                            nameController.text,
-                            imageController.text,
-                            int.parse(difficultyController.text));
+                        TaskDao().save(Task(nameController.text, imageController.text, int.parse(difficultyController.text)));
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Criando uma nova Tarefa'),

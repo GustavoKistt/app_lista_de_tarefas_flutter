@@ -1,25 +1,28 @@
+import 'dart:ffi';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lista_de_tarefas_app/components/difficulty.dart';
-
-
+import 'package:lista_de_tarefas_app/data/task_dao.dart';
 
 class Task extends StatefulWidget {
   final String nome;
   final String foto;
   final int dificuldade;
   int nivel;
-  Task(this.nome, this.foto, this.dificuldade, [this.nivel = 0, Key? key,])
-      : super(key: key);
 
-
-
+  Task(this.nome,
+      this.foto,
+      this.dificuldade, [
+        this.nivel = 0,
+        Key? key,
+      ]) : super(key: key);
 
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-
   bool assetOrNetwork() {
     if (widget.foto.contains('http')) {
       return false;
@@ -91,6 +94,34 @@ class _TaskState extends State<Task> {
                       height: 52,
                       width: 52,
                       child: ElevatedButton(
+                          onLongPress: ()
+                            {
+                            showDialog(
+                              context: context,
+                              builder: (context){
+                                  return AlertDialog(
+                                  title: Text("Excluir"),
+                                  content: Text("Você deseja excluir esta tarefa?"),
+                                  actions: [
+                                    TextButton(
+                                    onPressed: () {},
+                                    child: Text("Cancelar")),
+                                    TextButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        TaskDao().delete(widget.nome);
+                                      //  Navigator.pop(context);
+                                      });
+                                    },
+                                    child: Text("Deletar")),
+                              ],
+                                  );},
+
+
+
+
+                                        );},
+
                           onPressed: () {
                             print(widget.nivel);
                             setState(() {
